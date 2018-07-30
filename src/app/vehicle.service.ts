@@ -13,23 +13,23 @@ export class VehicleService {
   constructor(private http: HttpClient) {
 
   }
-  getVehicles() {
+  getVehicles(value?: string) {
     return this.http.get('assets/vehicles.json').pipe(
-      map((data: any) => <Vehicle[]> data.data),
+      map((data: any) => {  
+        let vehicles = <Vehicle[]> data.data;
+        if(!value) {
+          return vehicles;
+        }
+        return vehicles.filter( v =>
+          v.name.toLowerCase().includes(value.toLowerCase())
+        );
+    }),
       tap(data => console.log(data)),
-      catchError(this.handleError)
-    );
-
-    // return [
-    //   new Vehicle(1, 'X-Wing Fighter'),
-    //   new Vehicle(2, 'B-Wing Fighter'),
-    //   new Vehicle(3, 'Y-Wing Fighter')
-    // ];
+      catchError(this.handleError));
   }
 
-  private handleError(error: HttpErrorResponse) {
-    console.error(error);
-    let msg = `Error status code ${error.status} at ${error.url}`;
-    return throwError(msg);
+  private handleError(res: HttpErrorResponse) {
+    console.error(res.error);
+    return throwError(res.error || 'Server error');
   }
 }

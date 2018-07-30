@@ -10,17 +10,12 @@ import { Observable } from 'rxjs';
 export class VehicleListComponent {
   errorMessage: string;
   selectedVehicle: Vehicle;
-  vehicles: Vehicle[];
+  vehicles: Observable<Vehicle[]>;
 
   constructor(private vehicleService: VehicleService) {}
 
-  getVehicles() {
-    // this.vehicles = this.vehicleService.getVehicles();
-    this.vehicleService
-      .getVehicles()
-      .subscribe(
-        vehicles => this.vehicles = vehicles,
-        error => (this.errorMessage = <any>error));
+  getVehicles(value?: string) {
+    this.vehicles = this.vehicleService.getVehicles(value);
   }
 
   ngOnInit() {

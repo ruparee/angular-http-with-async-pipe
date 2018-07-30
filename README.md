@@ -1,4 +1,4 @@
-# aonixrlq.github
+# Using Http with Observables and the Async Pipe
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
 
